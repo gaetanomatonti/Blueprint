@@ -24,12 +24,13 @@ open class ViewController<V: ModellableView>: UIViewController {
   
   open override func loadView() {
     let _view = V()
-    _view.setup()
-    _view.style()
-    
+
     if let _view = _view as? any ViewControllerModellableView {
       _view.viewController = self
     }
+
+    _view.setup()
+    _view.style()    
     
     view = _view
     
