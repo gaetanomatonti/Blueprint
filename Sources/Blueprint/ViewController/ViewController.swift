@@ -31,19 +31,23 @@ open class ViewController<V: ModellableView>: UIViewController {
 
     _view.setup()
     _view.style()
-    
-    if let _view = _view as? CustomNavigationStyle {
-      _view.styleNavigationBar()
-    }
-
-    if let _view = _view as? CustomTabBarStyle {
-      _view.styleTabBar()
-    }
-    
+        
     view = _view
     
     if let rootView = rootView as? ConstraintBasedView {
       rootView.layout()
+    }
+  }
+  
+  open override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    if let rootView = rootView as? CustomNavigationStyle {
+      rootView.styleNavigationBar()
+    }
+
+    if let rootView = rootView as? CustomTabBarStyle {
+      rootView.styleTabBar()
     }
   }
 }
