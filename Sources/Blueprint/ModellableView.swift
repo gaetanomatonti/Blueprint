@@ -18,22 +18,22 @@ public protocol ModellableView: View {
 private var modelWrapperKey = "modellableview_model_wrapper_key"
 
 /// implementation detail, wrapper of the model to work with the associatedObject mechanism.
-private final class ModelWrapper<VM: ViewModel> {
-  var model: VM?
+private final class ViewModelWrapper<VM: ViewModel> {
+  var viewModel: VM?
 
-  init(model: VM?) {
-    self.model = model
+  init(viewModel: VM?) {
+    self.viewModel = viewModel
   }
 }
 
 /// model update logic implementation.
 extension ModellableView {
-  private var modelWrapper: ModelWrapper<VM> {
+  private var modelWrapper: ViewModelWrapper<VM> {
     get {
-      if let modelWrapper = objc_getAssociatedObject(self, &modelWrapperKey) as? ModelWrapper<VM> {
+      if let modelWrapper = objc_getAssociatedObject(self, &modelWrapperKey) as? ViewModelWrapper<VM> {
         return modelWrapper
       }
-      let newWrapper = ModelWrapper<VM>(model: nil)
+      let newWrapper = ViewModelWrapper<VM>(viewModel: nil)
       self.modelWrapper = newWrapper
       return newWrapper
     }
@@ -53,14 +53,14 @@ extension ModellableView {
   /// Swift is inferring the Type through the `oldViewModel` parameter of the `update(oldViewModelModel: ViewModel?)` method
   /// and we are adding the var exploiting a feature of the Objective-C runtime called
   /// [Associated Objects](http://nshipster.com/associated-objects/).
-  public var model: VM? {
+  public var viewModel: VM? {
     get {
-      modelWrapper.model
+      modelWrapper.viewModel
     }
 
     set {
-      let oldValue = model
-      modelWrapper.model = newValue
+      let oldValue = viewModel
+      modelWrapper.viewModel = newValue
 
       update(oldViewModel: oldValue)
     }
