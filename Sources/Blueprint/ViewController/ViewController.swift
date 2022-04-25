@@ -25,7 +25,7 @@ open class ViewController<V: ModellableView>: UIViewController {
   open override func loadView() {
     let _view = V()
 
-    if let _view = _view as? any ViewControllerModellableView {
+    if let _view = _view as? ViewControllerView {
       _view.viewController = self
     }
 
@@ -34,9 +34,7 @@ open class ViewController<V: ModellableView>: UIViewController {
         
     view = _view
     
-    if let rootView = rootView as? ConstraintBasedView {
-      rootView.layout()
-    }
+    rootView.layout()
   }
   
   open override func viewWillAppear(_ animated: Bool) {

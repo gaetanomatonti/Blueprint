@@ -9,4 +9,12 @@ public protocol View: UIView {
   
   /// Styles the view and its subviews.
   func style()
+  
+  /// Sets the layout of the view.
+  /// Implement all your constraints in this function.
+  func layout()
+}
+
+public extension View {
+  func layout() {}
 }
